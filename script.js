@@ -33,7 +33,7 @@ class Student extends Person {
     }
 }
 
-const student = new Student('March', 24, 'Instructor', 'Programming');
+const student = new Student('Auggie', 24, 'Student', 'Programming');
 
 const studentInfoDiv = document.getElementById('student-info');
 studentInfoDiv.innerHTML = `
