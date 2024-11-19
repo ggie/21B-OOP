@@ -1,49 +1,30 @@
-class Person {
-    #name; 
-    #age;  
-    #occupation; 
-
-    constructor(name, age, occupation) {
-        this.#name = name;
-        this.#age = age;
-        this.#occupation = occupation;
+class ChartManager {
+    constructor(canvasId, type, data) {
+      this.canvasId = canvasId;
+      this.type = type;
+      this.data = data;
+      this.chart = null;
     }
-
-    getName() {
-        return this.#name;
+  
+    renderChart() {
+      const ctx = document.getElementById(this.canvasId).getContext("2d");
+      this.chart = new Chart(ctx, {
+        type: this.type,
+        data: this.data
+      });
     }
-
-    getAge() {
-        return this.#age;
-    }
-
-    getOccupation() {
-        return this.#occupation;
-    }
-}
-
-class Student extends Person {
-    constructor(name, age, occupation, major) {
-        super(name, age, occupation);
-        this.major = major;
-    }
-
-    getMajor() {
-        return this.major;
-    }
-}
-
-const student = new Student('Auggie', 19, 'Student', 'Programming');
-
-const studentInfoDiv = document.getElementById('student-info');
-studentInfoDiv.innerHTML = `
-    <p>Name: ${student.getName()}</p>
-    <p>Age: ${student.getAge()}</p>
-    <p>Occupation: ${student.getOccupation()}</p>
-    <p>Major: ${student.getMajor()}</p>
-`;
-
-console.log(`Name: ${student.getName()}`);
-console.log(`Age: ${student.getAge()}`);
-console.log(`Occupation: ${student.getOccupation()}`);
-console.log(`Major: ${student.getMajor()}`);
+  }
+  
+  async function initializeCharts() {
+    const response = await fetch("data.json");
+    const chartData = await response.json();
+  
+    const barChart = new ChartManager("barChart", "bar", chartData.barChart);
+    barChart.renderChart();
+  
+    const pieChart = new ChartManager("pieChart", "pie", chartData.pieChart);
+    pieChart.renderChart();
+  }
+  
+  window.onload = initializeCharts;
+  
